@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.gabrielFernandes.pokedex"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.gabrielFernandes.pokedex"
