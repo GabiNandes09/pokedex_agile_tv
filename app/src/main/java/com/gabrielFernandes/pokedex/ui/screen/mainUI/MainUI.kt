@@ -1,4 +1,4 @@
-package com.gabrielFernandes.pokedex.ui.screen
+package com.gabrielFernandes.pokedex.ui.screen.mainUI
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -6,14 +6,22 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.gabrielFernandes.pokedex.ui.screen.mainUI.components.BackGroundMain
+import com.gabrielFernandes.pokedex.ui.screen.mainUI.components.ListAll
+import com.gabrielFernandes.pokedex.ui.screen.mainUI.components.SearchAndFilterBar
 
 @Composable
 fun MainUI() {
     Scaffold { paddingValues ->
+        BackGroundMain()
         Column(
             modifier = Modifier.padding(paddingValues)
         ) {
-
+            SearchAndFilterBar(
+                Modifier.padding(vertical = 20.dp, horizontal = 10.dp)
+            )
+            ListAll()
         }
     }
 }
