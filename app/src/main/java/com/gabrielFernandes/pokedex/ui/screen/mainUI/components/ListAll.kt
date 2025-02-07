@@ -2,8 +2,6 @@ package com.gabrielFernandes.pokedex.ui.screen.mainUI.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -48,16 +46,10 @@ private fun ItemListAll() {
         mutableStateOf(false)
     }
     if (showDialog){
-        Popup {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Box{
-                    Spacer(modifier = Modifier.size(80.dp).background(Color.Green))
-                }
-            }
+        Popup(
+            alignment = Alignment.Center,
+        ) {
+            PokemonPreview()
         }
     }
     Card(
