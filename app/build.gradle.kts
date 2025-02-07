@@ -72,7 +72,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     implementation(libs.retrofit)
-    implementation(libs.converter.scalars)
+    implementation(libs.converter.gson)
 
 
     implementation(libs.androidx.room.runtime)
