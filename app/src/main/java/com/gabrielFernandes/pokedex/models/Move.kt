@@ -1,12 +1,6 @@
 package com.gabrielFernandes.pokedex.models
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class Move(
-    val name: String
-){
-    override fun toString(): String {
-        return name
-    }
-}
+    val move: MoveX,
+    val version_group_details: List<VersionGroupDetail>
+)

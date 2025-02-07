@@ -74,11 +74,6 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
-
-    implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.ktx)
-
     implementation(libs.koin.android)
     runtimeOnly(libs.koin.compose)
     runtimeOnly(libs.koin.core)
@@ -90,4 +85,7 @@ dependencies {
     runtimeOnly(libs.material3)
 
     implementation (libs.kotlinx.serialization.json)
+
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 }

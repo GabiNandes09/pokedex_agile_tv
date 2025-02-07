@@ -1,12 +1,7 @@
 package com.gabrielFernandes.pokedex.models
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class Ability(
-    val name: String
-) {
-    override fun toString(): String {
-        return name
-    }
-}
+    val ability: AbilityX,
+    val is_hidden: Boolean,
+    val slot: Int
+)
