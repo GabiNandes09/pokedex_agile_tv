@@ -1,6 +1,11 @@
 package com.gabrielFernandes.pokedex.models
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class GameIndice(
-    val game_index: Int,
-    val version: Version
+    @SerialName("game_index")
+    val gameIndex:Int,
+    val version:Version
 )

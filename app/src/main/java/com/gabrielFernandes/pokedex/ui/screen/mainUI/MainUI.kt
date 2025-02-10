@@ -13,6 +13,8 @@ import com.gabrielFernandes.pokedex.ui.screen.mainUI.components.SearchAndFilterB
 
 @Composable
 fun MainUI() {
+
+
     Scaffold { paddingValues ->
         BackGroundMain()
         Column(

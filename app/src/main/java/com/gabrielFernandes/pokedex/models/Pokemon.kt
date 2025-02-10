@@ -1,24 +1,48 @@
 package com.gabrielFernandes.pokedex.models
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Pokemon(
+    @SerialName("abilities")
     val abilities: List<Ability>,
-    val base_experience: Int,
+    @SerialName("base_experience")
+    val baseExperience: Int,
+    @SerialName("cries")
     val cries: Cries,
+    @SerialName("forms")
     val forms: List<Form>,
-    val game_indices: List<GameIndice>,
+    @SerialName("game_indices")
+    val gameIndices: List<GameIndice>,
+    @SerialName("height")
     val height: Int,
-    val held_items: List<Any?>,
+    @SerialName("held_items")
+    val heldItems: List<String?>,
+    @SerialName("id")
     val id: Int,
-    val is_default: Boolean,
-    val location_area_encounters: String,
+    @SerialName("is_default")
+    val isDefault: Boolean,
+    @SerialName("location_area_encounters")
+    val locationAreaEncounters: String,
+    @SerialName("moves")
     val moves: List<Move>,
+    @SerialName("name")
     val name: String,
+    @SerialName("order")
     val order: Int,
-    val past_abilities: List<Any?>,
-    val past_types: List<Any?>,
+    @SerialName("past_abilities")
+    val pastAbilities: List<String?>,
+    @SerialName("past_types")
+    val pastTypes: List<String?>,
+    @SerialName("species")
     val species: Species,
+    @SerialName("sprites")
     val sprites: Sprites,
+    @SerialName("stats")
     val stats: List<Stat>,
+    @SerialName("types")
     val types: List<Type>,
+    @SerialName("weight")
     val weight: Int
 )

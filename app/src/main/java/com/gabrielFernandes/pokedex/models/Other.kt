@@ -1,8 +1,16 @@
 package com.gabrielFernandes.pokedex.models
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Other(
-    val dream_world: DreamWorld,
+    @SerialName("dream_world")
+    val dreamWorld: DreamWorld,
+    @SerialName("home")
     val home: Home,
-    val official-artwork: OfficialArtwork,
+    @SerialName("official-artwork")
+    val officialArtwork: OfficialArtwork,
+    @SerialName("showdown")
     val showdown: Showdown
 )

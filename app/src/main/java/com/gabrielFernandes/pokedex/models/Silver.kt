@@ -1,9 +1,18 @@
 package com.gabrielFernandes.pokedex.models
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Silver(
-    val back_default: String,
-    val back_shiny: String,
-    val front_default: String,
-    val front_shiny: String,
-    val front_transparent: String
+    @SerialName("back_default")
+    val backDefault: String,
+    @SerialName("back_shiny")
+    val backShiny: String,
+    @SerialName("front_default")
+    val frontDefault: String,
+    @SerialName("front_shiny")
+    val frontShiny: String,
+    @SerialName("front_transparent")
+    val frontTransparent: String
 )

@@ -1,6 +1,11 @@
 package com.gabrielFernandes.pokedex.models
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class GenerationI(
-    val red-blue: RedBlue,
-    val yellow: Yellow
+    @SerialName("red-blue")
+    val redBlue:RedBlue,
+    val yellow:Yellow
 )

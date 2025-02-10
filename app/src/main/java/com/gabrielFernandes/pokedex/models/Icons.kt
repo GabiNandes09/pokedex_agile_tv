@@ -1,6 +1,12 @@
 package com.gabrielFernandes.pokedex.models
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Icons(
-    val front_default: String,
-    val front_female: Any
+    @SerialName("front_default")
+    val frontDefault:String,
+    @SerialName("front_female")
+    val frontFemale:String?
 )

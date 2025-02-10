@@ -1,7 +1,14 @@
 package com.gabrielFernandes.pokedex.models
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Stat(
-    val base_stat: Int,
+    @SerialName("base_stat")
+    val baseStat: Int,
+    @SerialName("effort")
     val effort: Int,
+    @SerialName("stat")
     val stat: StatX
 )
