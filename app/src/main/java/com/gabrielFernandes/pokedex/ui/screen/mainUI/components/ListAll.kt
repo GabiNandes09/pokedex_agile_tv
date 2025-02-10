@@ -1,9 +1,7 @@
 package com.gabrielFernandes.pokedex.ui.screen.mainUI.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,20 +21,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
+import coil3.compose.AsyncImage
+import com.gabrielFernandes.pokedex.R
 import com.gabrielFernandes.pokedex.models.PokemonResult
 
 @Composable
-fun ListAll(pkList: List<PokemonResult>) {
+fun ListAll(
+    pkList: List<PokemonResult>,
+    imageList: List<String?>
+    ) {
+
     LazyVerticalGrid(columns = GridCells.Fixed(3)) {
         pkList.forEach{pokemon ->
             item {
+                val index = pkList.indexOf(pokemon)
                 ItemListAll(
-                    index = pkList.indexOf(pokemon),
-                    name = pokemon.name
+                    index = index,
+                    name = pokemon.name,
+                    urlImage = imageList[index]
                 )
             }
         }
@@ -46,8 +53,10 @@ fun ListAll(pkList: List<PokemonResult>) {
 @Composable
 private fun ItemListAll(
     index: Int,
-    name: String
+    name: String,
+    urlImage: String?
 ) {
+
     val textColor = Color.Black
     var showDialog by remember {
         mutableStateOf(false)
@@ -84,14 +93,17 @@ private fun ItemListAll(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = index.toString(),
+                text = "#${index + 1}",
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(10.dp),
                 color = textColor
             )
-            Spacer(modifier = Modifier
-                .size(80.dp)
-                .background(Color.Blue))
+            AsyncImage(
+                model = urlImage,
+                contentDescription = null,
+                modifier = Modifier.size(80.dp),
+                placeholder = painterResource(id = R.drawable.ic_launcher_background)
+                )
             Text(
                 text = name,
                 fontWeight = FontWeight.Bold,
@@ -105,5 +117,7 @@ private fun ItemListAll(
 @Preview
 @Composable
 private fun Preview() {
-    ListAll(emptyList())
+    ListAll(
+        emptyList(),
+        emptyList())
 }

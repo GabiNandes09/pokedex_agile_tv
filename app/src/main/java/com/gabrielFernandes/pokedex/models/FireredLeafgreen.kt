@@ -1,16 +1,15 @@
 package com.gabrielFernandes.pokedex.models
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-@Serializable
+
 data class FireredLeafgreen(
-    @SerialName("back_default")
+    @SerializedName("back_default")
     val backDefault:String,
-    @SerialName("back_shiny")
+    @SerializedName("back_shiny")
     val backShiny:String,
-    @SerialName("front_default")
+    @SerializedName("front_default")
     val frontDefault:String,
-    @SerialName("front_shiny")
+    @SerializedName("front_shiny")
     val frontShiny:String
 )

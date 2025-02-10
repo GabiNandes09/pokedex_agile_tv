@@ -1,16 +1,15 @@
 package com.gabrielFernandes.pokedex.models
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-@Serializable
+
 data class Other(
-    @SerialName("dream_world")
+    @SerializedName("dream_world")
     val dreamWorld: DreamWorld,
-    @SerialName("home")
+    @SerializedName("home")
     val home: Home,
-    @SerialName("official-artwork")
+    @SerializedName("official-artwork")
     val officialArtwork: OfficialArtwork,
-    @SerialName("showdown")
+    @SerializedName("showdown")
     val showdown: Showdown
 )

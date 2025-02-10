@@ -1,12 +1,11 @@
 package com.gabrielFernandes.pokedex.models
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-@Serializable
+
 data class Move(
-    @SerialName("move")
+    @SerializedName("move")
     val move:MoveX,
-    @SerialName("version_group_details")
+    @SerializedName("version_group_details")
     val versionGroupDetails:List<VersionGroupDetail>
 )

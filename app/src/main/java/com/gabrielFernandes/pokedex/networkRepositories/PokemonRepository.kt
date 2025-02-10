@@ -9,10 +9,11 @@ import retrofit2.http.Query
 
 interface PokemonRepository {
 
-    @GET("pokemon/{id}")
+    @GET("pokemon/{id}/")
     suspend fun getOnePokemon(
         @Path("id") id: Int
     ) : Response<Pokemon>
+
 
     @GET("pokemon")
     suspend fun getPokemons(

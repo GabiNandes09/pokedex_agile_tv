@@ -1,8 +1,6 @@
 package com.gabrielFernandes.pokedex.models
 
-import kotlinx.serialization.Serializable
 
-@Serializable
 data class PokemonResponse(
     val count: Int,
     val next: String?,
@@ -10,7 +8,7 @@ data class PokemonResponse(
     val results: List<PokemonResult>
 )
 
-@Serializable
+
 data class PokemonResult(
     val name: String,
     val url: String

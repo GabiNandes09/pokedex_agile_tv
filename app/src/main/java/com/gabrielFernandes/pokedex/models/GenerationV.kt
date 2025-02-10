@@ -1,10 +1,9 @@
 package com.gabrielFernandes.pokedex.models
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-@Serializable
+
 data class GenerationV(
-    @SerialName("black-white")
+    @SerializedName("black-white")
     val blackWhite:BlackWhite
 )

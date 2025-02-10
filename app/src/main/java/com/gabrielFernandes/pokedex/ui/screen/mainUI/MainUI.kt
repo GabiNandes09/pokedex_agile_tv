@@ -19,6 +19,7 @@ import org.koin.androidx.compose.koinViewModel
 fun MainUI() {
     val viewModel: MainViewModel = koinViewModel()
     val pkList by viewModel.pokemonsList.collectAsState()
+    val imageList by viewModel.imageList.collectAsState()
 
     Scaffold { paddingValues ->
         BackGroundMain()
@@ -28,7 +29,10 @@ fun MainUI() {
             SearchAndFilterBar(
                 Modifier.padding(vertical = 20.dp, horizontal = 10.dp)
             )
-            pkList?.let { ListAll(it) }
+            ListAll(
+                pkList,
+                imageList
+            )
         }
     }
 }

@@ -12,17 +12,27 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val pokemonRepository: PokemonRepository
 ) : ViewModel() {
-    private val _pokemonsList = MutableStateFlow<List<PokemonResult>?>(emptyList())
+    private val _pokemonsList = MutableStateFlow<List<PokemonResult>>(emptyList())
     val pokemonsList = _pokemonsList.asStateFlow()
+
+    private val _imagesList = MutableStateFlow<List<String?>>(emptyList())
+    val imageList = _imagesList.asStateFlow()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            loadPokemons(50, 0)
+            loadPokemonsWithImages(50, 0)
         }
     }
 
-   suspend fun loadPokemons(limit: Int, offset: Int){
-       val pkResponse = pokemonRepository.getPokemons(limit, offset).body()
-        _pokemonsList.value = pkResponse?.results
+    private suspend fun loadPokemonsWithImages(limit: Int, offset: Int) {
+        val pkResponse = pokemonRepository.getPokemons(limit, offset).body()
+        val pokemons = pkResponse?.results ?: emptyList()
+
+        val images = pokemons.map { pk ->
+            pokemonRepository.getOnePokemon(pokemons.indexOf(pk) + 1).body()?.sprites?.frontDefault
+        }
+
+        _pokemonsList.value = pokemons
+        _imagesList.value = images
     }
 }

@@ -1,13 +1,12 @@
 package com.gabrielFernandes.pokedex.models
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-@Serializable
+
 data class GenerationIii(
     val emerald:Emerald,
-    @SerialName("firered-leafgreen")
+    @SerializedName("firered-leafgreen")
     val fireredLeafgreen:FireredLeafgreen,
-    @SerialName("ruby-sapphire")
+    @SerializedName("ruby-sapphire")
     val rubySapphire:RubySapphire
 )

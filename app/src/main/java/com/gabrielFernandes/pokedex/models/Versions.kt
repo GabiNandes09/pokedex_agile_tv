@@ -1,24 +1,23 @@
 package com.gabrielFernandes.pokedex.models
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-@Serializable
+
 data class Versions(
-    @SerialName("generation-i")
+    @SerializedName("generation-i")
     val generationI: GenerationI,
-    @SerialName("generation-ii")
+    @SerializedName("generation-ii")
     val generationIi: GenerationIi,
-    @SerialName("generation-iii")
+    @SerializedName("generation-iii")
     val generationIii: GenerationIii,
-    @SerialName("generation-iv")
+    @SerializedName("generation-iv")
     val generationIv: GenerationIv,
-    @SerialName("generation-v")
+    @SerializedName("generation-v")
     val generationV: GenerationV,
-    @SerialName("generation-vi")
+    @SerializedName("generation-vi")
     val generationVi: GenerationVi,
-    @SerialName("generation-vii")
+    @SerializedName("generation-vii")
     val generationVii: GenerationVii,
-    @SerialName("generation-viii")
+    @SerializedName("generation-viii")
     val generationViii: GenerationViii
 )

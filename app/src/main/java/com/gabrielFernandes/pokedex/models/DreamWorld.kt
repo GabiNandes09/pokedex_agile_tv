@@ -1,12 +1,11 @@
 package com.gabrielFernandes.pokedex.models
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-@Serializable
+
 data class DreamWorld(
-    @SerialName("front_default")
+    @SerializedName("front_default")
     val frontDefault:String,
-    @SerialName("front_female")
+    @SerializedName("front_female")
     val frontFemale:String?
 )

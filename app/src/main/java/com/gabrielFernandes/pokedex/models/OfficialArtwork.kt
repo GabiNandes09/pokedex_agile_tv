@@ -1,12 +1,11 @@
 package com.gabrielFernandes.pokedex.models
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-@Serializable
+
 data class OfficialArtwork(
-    @SerialName("front_default")
+    @SerializedName("front_default")
     val frontDefault:String,
-    @SerialName("front_shiny")
+    @SerializedName("front_shiny")
     val frontShiny:String
 )

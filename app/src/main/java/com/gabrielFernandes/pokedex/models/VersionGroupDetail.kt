@@ -1,14 +1,13 @@
 package com.gabrielFernandes.pokedex.models
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-@Serializable
+
 data class VersionGroupDetail(
-    @SerialName("level_learned_at")
+    @SerializedName("level_learned_at")
     val levelLearnedAt: Int,
-    @SerialName("move_learn_method")
+    @SerializedName("move_learn_method")
     val moveLearnMethod: MoveLearnMethod,
-    @SerialName("version_group")
+    @SerializedName("version_group")
     val versionGroup: VersionGroup
 )
