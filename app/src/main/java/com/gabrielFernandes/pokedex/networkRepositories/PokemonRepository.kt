@@ -18,6 +18,6 @@ interface PokemonRepository {
     suspend fun getPokemons(
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
-    ) : Response<List<PokemonResponse>>
+    ) : Response<PokemonResponse>
 
 }

@@ -27,20 +27,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
+import com.gabrielFernandes.pokedex.models.PokemonResult
 
 @Composable
-fun ListAll(modifier: Modifier = Modifier) {
+fun ListAll(pkList: List<PokemonResult>) {
     LazyVerticalGrid(columns = GridCells.Fixed(3)) {
-        for (i in 1..30){
+        pkList.forEach{pokemon ->
             item {
-                ItemListAll()
+                ItemListAll(
+                    index = pkList.indexOf(pokemon),
+                    name = pokemon.name
+                )
             }
         }
     }
 }
 
 @Composable
-private fun ItemListAll() {
+private fun ItemListAll(
+    index: Int,
+    name: String
+) {
     val textColor = Color.Black
     var showDialog by remember {
         mutableStateOf(false)
@@ -77,7 +84,7 @@ private fun ItemListAll() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "#01",
+                text = index.toString(),
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(10.dp),
                 color = textColor
@@ -86,7 +93,7 @@ private fun ItemListAll() {
                 .size(80.dp)
                 .background(Color.Blue))
             Text(
-                text = "Bubassaur",
+                text = name,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(10.dp),
                 color = textColor
@@ -98,5 +105,5 @@ private fun ItemListAll() {
 @Preview
 @Composable
 private fun Preview() {
-    ListAll()
+    ListAll(emptyList())
 }
