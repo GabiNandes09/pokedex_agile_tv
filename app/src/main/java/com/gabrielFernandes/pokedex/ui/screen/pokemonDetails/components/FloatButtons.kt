@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.gabrielFernandes.pokedex.ui.screen.pokemonDetails.isPortrait
 import com.gabrielFernandes.pokedex.viewModels.PokemonDetailViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -50,84 +51,168 @@ fun FloatButtonsUI(id: Int) {
         viewModel.nextOrBeforePokemon(atual)
     }
 
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        IconButton(
-            onClick = { atual-- },
-            colors = IconButtonDefaults.iconButtonColors(
-                containerColor = Color.White
-            ),
-            modifier = Modifier
-                .border(2.dp, Color.Black, CircleShape)
+    if (isPortrait()){
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                contentDescription = null,
-                Modifier.size(40.dp),
-                tint = Color.Black
-            )
+            IconButton(
+                onClick = { atual-- },
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = Color.White
+                ),
+                modifier = Modifier
+                    .border(2.dp, Color.Black, CircleShape)
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    contentDescription = null,
+                    Modifier.size(40.dp),
+                    tint = Color.Black
+                )
+            }
+            Box( // Anterior
+                modifier = Modifier
+                    .padding(start = 15.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .border(2.dp, Color.Black, CircleShape)
+                    .size(50.dp)
+            ){
+                AsyncImage(
+                    model = beforePk?.sprites?.frontDefault,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .padding(horizontal = 5.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .border(2.dp, Color.Black, CircleShape)
+                    .size(70.dp)
+            ){
+                AsyncImage(
+                    model = pokemonAtual?.sprites?.frontDefault,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .padding(end = 15.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .border(2.dp, Color.Black, CircleShape)
+                    .size(50.dp)
+            ){
+                AsyncImage(
+                    model = nextPk?.sprites?.frontDefault,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+            IconButton(
+                onClick = { atual++ },
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = Color.White
+                ),
+                modifier = Modifier
+                    .border(2.dp, Color.Black, CircleShape)
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
+                    contentDescription = null,
+                    Modifier.size(40.dp),
+                    tint = Color.Black
+                )
+            }
         }
-        Box( // Anterior
-            modifier = Modifier
-                .padding(start = 15.dp)
-                .clip(CircleShape)
-                .background(Color.White)
-                .border(2.dp, Color.Black, CircleShape)
-                .size(50.dp)
-        ){
-            AsyncImage(
-                model = beforePk?.sprites?.frontDefault,
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize()
-            )
-        }
-        Box(
-            modifier = Modifier
-                .padding(horizontal = 5.dp)
-                .clip(CircleShape)
-                .background(Color.White)
-                .border(2.dp, Color.Black, CircleShape)
-                .size(70.dp)
-        ){
-            AsyncImage(
-                model = pokemonAtual?.sprites?.frontDefault,
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize()
-            )
-        }
-        Box(
-            modifier = Modifier
-                .padding(end = 15.dp)
-                .clip(CircleShape)
-                .background(Color.White)
-                .border(2.dp, Color.Black, CircleShape)
-                .size(50.dp)
-        ){
-            AsyncImage(
-                model = nextPk?.sprites?.frontDefault,
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize()
-            )
-        }
-        IconButton(
-            onClick = { atual++ },
-            colors = IconButtonDefaults.iconButtonColors(
-                containerColor = Color.White
-            ),
-            modifier = Modifier
-                .border(2.dp, Color.Black, CircleShape)
+    } else {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
-                contentDescription = null,
-                Modifier.size(40.dp),
-                tint = Color.Black
-            )
+            IconButton(
+                onClick = { atual-- },
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = Color.White
+                ),
+                modifier = Modifier
+                    .border(2.dp, Color.Black, CircleShape)
+                    .weight(1f)
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    contentDescription = null,
+                    Modifier.size(40.dp),
+                    tint = Color.Black
+                )
+            }
+            Box( // Anterior
+                modifier = Modifier
+                    .padding(start = 15.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .border(2.dp, Color.Black, CircleShape)
+                    .size(50.dp)
+            ){
+                AsyncImage(
+                    model = beforePk?.sprites?.frontDefault,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .padding(horizontal = 5.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .border(2.dp, Color.Black, CircleShape)
+                    .size(70.dp)
+            ){
+                AsyncImage(
+                    model = pokemonAtual?.sprites?.frontDefault,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .padding(end = 15.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .border(2.dp, Color.Black, CircleShape)
+                    .size(50.dp)
+            ){
+                AsyncImage(
+                    model = nextPk?.sprites?.frontDefault,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+            IconButton(
+                onClick = { atual++ },
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = Color.White
+                ),
+                modifier = Modifier
+                    .border(2.dp, Color.Black, CircleShape)
+                    .weight(1f)
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
+                    contentDescription = null,
+                    Modifier.size(40.dp),
+                    tint = Color.Black
+                )
+            }
         }
     }
+
 }
 
 @Preview

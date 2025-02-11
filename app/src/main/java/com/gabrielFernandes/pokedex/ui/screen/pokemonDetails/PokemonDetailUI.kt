@@ -1,5 +1,9 @@
 package com.gabrielFernandes.pokedex.ui.screen.pokemonDetails
 
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -13,6 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gabrielFernandes.pokedex.ui.screen.mainUI.components.BackGroundMain
@@ -40,49 +45,102 @@ fun PokemonDetailUI(
     LaunchedEffect(pokemon) {
         pokemon?.id?.let { viewModel.loadPokemon(it) }
     }
-    Scaffold(
-        floatingActionButton = { FloatButtonsUI(id = id)},
-        floatingActionButtonPosition = FabPosition.Center
-    ) { paddingValues ->
-        BackGroundMain()
-        LazyColumn(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-        ) {
-            item {
-                NameAndNumber(
-                    name = pokemon?.name ?: "",
-                    number = pokemon?.id ?: 0
-                )
-            }
+    if (isPortrait()) {
+        Scaffold(
+            floatingActionButton = { FloatButtonsUI(id = id) },
+            floatingActionButtonPosition = FabPosition.Center
+        ) { paddingValues ->
+            BackGroundMain()
+            LazyColumn(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
+            ) {
+                item {
+                    NameAndNumber(
+                        name = pokemon?.name ?: "",
+                        number = pokemon?.id ?: 0
+                    )
+                }
 
-            item {
-                PhotoPokemon(
-                    urlImage = pokemon?.sprites?.frontDefault
-                )
-            }
+                item {
+                    PhotoPokemon(
+                        urlImage = pokemon?.sprites?.frontDefault
+                    )
+                }
 
-            item {
-                BasicStats(
-                    types = types,
-                    stats = stats
-                )
+                item {
+                    BasicStats(
+                        types = types,
+                        stats = stats
+                    )
+                }
+                item {
+                    AbilitysUI(
+                        pokemon
+                    )
+                }
+                item {
+                    MovesUI(pokemon = pokemon)
+                }
+                item {
+                    Spacer(modifier = Modifier.height(100.dp))
+                }
             }
-            item {
-                AbilitysUI(
-                    pokemon
-                )
-            }
-            item {
-                MovesUI(pokemon = pokemon)
-            }
-            item {
-                Spacer(modifier = Modifier.height(100.dp))
+        }
+    } else {
+        Scaffold(
+            floatingActionButton = { FloatButtonsUI(id = id) },
+            floatingActionButtonPosition = FabPosition.Center
+        ) { paddingValues ->
+            BackGroundMain()
+            Row {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    NameAndNumber(
+                        name = pokemon?.name ?: "",
+                        number = pokemon?.id ?: 0
+                    )
+                    PhotoPokemon(
+                        urlImage = pokemon?.sprites?.frontDefault
+                    )
+                }
+                LazyColumn(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .fillMaxSize()
+                ) {
+                    item {
+                        BasicStats(
+                            types = types,
+                            stats = stats
+                        )
+                    }
+                    item {
+                        AbilitysUI(
+                            pokemon
+                        )
+                    }
+                    item {
+                        MovesUI(pokemon = pokemon)
+                    }
+                    item {
+                        Spacer(modifier = Modifier.height(100.dp))
+                    }
+                }
             }
         }
     }
+}
+
+@Composable
+fun isPortrait(): Boolean {
+    val configuration = LocalConfiguration.current
+    return configuration.orientation == Configuration.ORIENTATION_PORTRAIT
 }
 
 
