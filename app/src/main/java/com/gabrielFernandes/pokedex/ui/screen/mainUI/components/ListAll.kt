@@ -4,8 +4,8 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -100,6 +100,7 @@ private fun ItemListAllPreview() {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ItemListAll(
     pokemon: Pokemon?,
@@ -129,14 +130,14 @@ private fun ItemListAll(
                     onLongPress = {
                         showDialog = true
                     },
+                    onTap = {
+                        onclick(pokemon?.id ?: 0)
+                    },
                     onPress = {
                         tryAwaitRelease()
                         showDialog = false
                     }
                 )
-            }
-            .clickable {
-                onclick(pokemon?.id ?: 0)
             },
         colors = CardDefaults.cardColors(
             containerColor = Color.LightGray.copy(alpha = .75f)
@@ -159,7 +160,7 @@ private fun ItemListAll(
                 placeholder = painterResource(id = R.drawable.no_image_foreground)
             )
             Text(
-                text = pokemon?.name ?: "",
+                text = pokemon?.name?.replaceFirstChar { it.uppercaseChar() } ?: "",
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(10.dp),
                 color = textColor
