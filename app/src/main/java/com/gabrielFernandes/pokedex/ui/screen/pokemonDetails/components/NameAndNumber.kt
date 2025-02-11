@@ -31,11 +31,13 @@ fun NameAndNumber(
         Text(
             text = name.replaceFirstChar { it.uppercaseChar() },
             fontSize = 30.sp,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            color = Color.Black
         )
         Text(
             text = "#$number",
-            fontSize = 30.sp
+            fontSize = 30.sp,
+            color = Color.Black
         )
     }
 }

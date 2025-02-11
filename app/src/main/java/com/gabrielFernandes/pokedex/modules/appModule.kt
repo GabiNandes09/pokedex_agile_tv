@@ -17,7 +17,7 @@ val appModule = module {
             typeRepository = get()
         )
     }
-    factory {
+    viewModel {
         PokemonDetailViewModel(
             pokemonRepository = get(),
             typeRepository = get()

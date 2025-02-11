@@ -1,11 +1,14 @@
 package com.gabrielFernandes.pokedex.viewModels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.gabrielFernandes.pokedex.models.Pokemon
 import com.gabrielFernandes.pokedex.networkRepositories.PokemonRepository
 import com.gabrielFernandes.pokedex.networkRepositories.TypeRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class PokemonDetailViewModel(
     private val pokemonRepository: PokemonRepository,
@@ -20,6 +23,12 @@ class PokemonDetailViewModel(
 
     private val _types = MutableStateFlow<List<String>>(emptyList())
     val types = _types.asStateFlow()
+
+    private val _next = MutableStateFlow<Pokemon?>(null)
+    val next = _next.asStateFlow()
+
+    private val _before = MutableStateFlow<Pokemon?>(null)
+    val before = _before.asStateFlow()
 
     suspend fun loadPokemon(id: Int) {
         val pk = pokemonRepository.getOnePokemon(id).body()
@@ -54,5 +63,13 @@ class PokemonDetailViewModel(
         }
 
         return stats
+    }
+
+    fun nextOrBeforePokemon(id: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            _pokemon.value = pokemonRepository.getOnePokemon(id).body()
+            _next.value = pokemonRepository.getOnePokemon(id + 1).body()
+            _before.value = pokemonRepository.getOnePokemon(id - 1).body()
+        }
     }
 }

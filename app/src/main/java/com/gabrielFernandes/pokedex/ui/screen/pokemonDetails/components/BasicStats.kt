@@ -41,7 +41,8 @@ fun BasicStats(
         ) {
             Text(
                 text = "Type: ",
-                fontSize = 20.sp
+                fontSize = 20.sp,
+                color = Color.Black
             )
             types.forEach { type ->
                 AsyncImage(
@@ -64,12 +65,18 @@ fun BasicStats(
                         .fillMaxWidth()
                         .weight(1f)
                 ) {
-                    Text(text = formartStats(key.key) + ": ")
+                    Text(
+                        text = formartStats(key.key) + ": ",
+                        color = Color.Black
+                    )
                 }
                 Column(
                     horizontalAlignment = Alignment.Start,
                 ) {
-                    Text(text = key.value.toString())
+                    Text(
+                        text = key.value.toString(),
+                        color = Color.Black
+                    )
                 }
                 Column(
                     horizontalAlignment = Alignment.Start,
