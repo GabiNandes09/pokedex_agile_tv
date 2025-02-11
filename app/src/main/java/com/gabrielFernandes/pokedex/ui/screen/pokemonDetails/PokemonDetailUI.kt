@@ -1,7 +1,7 @@
 package com.gabrielFernandes.pokedex.ui.screen.pokemonDetails
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -10,7 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.gabrielFernandes.pokedex.ui.screen.mainUI.components.BackGroundMain
+import com.gabrielFernandes.pokedex.ui.screen.pokemonDetails.components.AbilitysUI
 import com.gabrielFernandes.pokedex.ui.screen.pokemonDetails.components.BasicStats
+import com.gabrielFernandes.pokedex.ui.screen.pokemonDetails.components.MovesUI
 import com.gabrielFernandes.pokedex.ui.screen.pokemonDetails.components.NameAndNumber
 import com.gabrielFernandes.pokedex.ui.screen.pokemonDetails.components.PhotoPokemon
 import com.gabrielFernandes.pokedex.viewModels.PokemonDetailViewModel
@@ -30,22 +32,37 @@ fun PokemonDetailUI(
     }
 
     BackGroundMain()
-    Column(
+    LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ) {
-        NameAndNumber(
-            name = pokemon?.name ?: "",
-            number = pokemon?.id ?: 0
-        )
+        item {
+            NameAndNumber(
+                name = pokemon?.name ?: "",
+                number = pokemon?.id ?: 0
+            )
+        }
 
-        PhotoPokemon(
-            urlImage = pokemon?.sprites?.frontDefault
-        )
-        BasicStats(
-            types = types,
-            stats = stats
-        )
+        item {
+            PhotoPokemon(
+                urlImage = pokemon?.sprites?.frontDefault
+            )
+        }
+
+        item {
+            BasicStats(
+                types = types,
+                stats = stats
+            )
+        }
+        item {
+            AbilitysUI(
+                pokemon
+            )
+        }
+        item {
+            MovesUI(pokemon = pokemon)
+        }
     }
 }
 

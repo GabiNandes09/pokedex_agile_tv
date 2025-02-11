@@ -64,7 +64,7 @@ fun BasicStats(
                         .fillMaxWidth()
                         .weight(1f)
                 ) {
-                    Text(text = chooseStat(key.key) + ": ")
+                    Text(text = formartStats(key.key) + ": ")
                 }
                 Column(
                     horizontalAlignment = Alignment.Start,
@@ -94,10 +94,8 @@ fun BasicStats(
     }
 }
 
-private fun chooseStat(stat: String) : String{
-    return when(stat){
-        "special-attack" -> "Special Attack"
-        "special-defense" -> "Special Defense"
-        else -> stat.replaceFirstChar { it.uppercaseChar() }
-    }
+private fun formartStats(stat: String): String {
+    return stat
+        .replaceFirstChar { it.uppercaseChar() }
+        .replace("-", " ")
 }
