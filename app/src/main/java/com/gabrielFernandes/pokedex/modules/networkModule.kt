@@ -1,6 +1,7 @@
 package com.gabrielFernandes.pokedex.modules
 
 import com.gabrielFernandes.pokedex.networkRepositories.PokemonRepository
+import com.gabrielFernandes.pokedex.networkRepositories.TypeRepository
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -15,4 +16,5 @@ val networkModule = module {
             .build()
     }
     single { get<Retrofit>().create(PokemonRepository::class.java) }
+    single { get<Retrofit>().create(TypeRepository::class.java) }
 }
