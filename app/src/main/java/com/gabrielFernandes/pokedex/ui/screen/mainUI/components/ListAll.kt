@@ -5,6 +5,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,11 +42,12 @@ import com.gabrielFernandes.pokedex.models.Pokemon
 
 @Composable
 fun ListAll(
-    pkList: List<Pokemon?>
+    pkList: List<Pokemon?>,
+    onclick: (Int) -> Unit
 ) {
     if (pkList.isEmpty()) {
         LazyVerticalGrid(columns = GridCells.Fixed(3)) {
-            for(i in 1..50) {
+            for (i in 1..50) {
                 item {
                     ItemListAllPreview()
                 }
@@ -56,7 +58,8 @@ fun ListAll(
             pkList.forEach { pokemon ->
                 item {
                     ItemListAll(
-                        pokemon
+                        pokemon,
+                        onclick
                     )
                 }
             }
@@ -99,7 +102,8 @@ private fun ItemListAllPreview() {
 
 @Composable
 private fun ItemListAll(
-    pokemon: Pokemon?
+    pokemon: Pokemon?,
+    onclick: (Int) -> Unit
 ) {
 
     val textColor = Color.Black
@@ -130,6 +134,9 @@ private fun ItemListAll(
                         showDialog = false
                     }
                 )
+            }
+            .clickable {
+                onclick(pokemon?.id ?: 0)
             },
         colors = CardDefaults.cardColors(
             containerColor = Color.LightGray.copy(alpha = .75f)
@@ -165,6 +172,7 @@ private fun ItemListAll(
 @Composable
 private fun Preview() {
     ListAll(
-        emptyList()
+        emptyList(),
+        {}
     )
 }

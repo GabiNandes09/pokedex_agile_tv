@@ -1,6 +1,7 @@
 package com.gabrielFernandes.pokedex.modules
 
 import com.gabrielFernandes.pokedex.viewModels.MainViewModel
+import com.gabrielFernandes.pokedex.viewModels.PokemonDetailViewModel
 import com.gabrielFernandes.pokedex.viewModels.PokemonPreviewViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -13,6 +14,12 @@ val appModule = module {
     }
     factory {
         PokemonPreviewViewModel(
+            typeRepository = get()
+        )
+    }
+    factory {
+        PokemonDetailViewModel(
+            pokemonRepository = get(),
             typeRepository = get()
         )
     }

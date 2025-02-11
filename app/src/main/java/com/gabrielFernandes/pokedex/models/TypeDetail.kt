@@ -9,10 +9,10 @@ data class SpritesResponse(
 
 data class SpritesDetail(
     @SerializedName("generation-viii")
-    val generationVIII: GenerationVIII
+    val generationVIII: GenerationVIIIDetail
 )
 
-data class GenerationVIII(
+data class GenerationVIIIDetail(
     @SerializedName("sword-shield")
     val swordShiel: GameSprite
 )
