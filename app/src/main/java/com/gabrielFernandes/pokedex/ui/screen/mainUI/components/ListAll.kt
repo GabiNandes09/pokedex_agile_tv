@@ -4,7 +4,6 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
@@ -54,7 +53,9 @@ fun ListAll(
             }
         }
     } else {
-        LazyVerticalGrid(columns = GridCells.Fixed(3)) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(3)
+        ) {
             pkList.forEach { pokemon ->
                 item {
                     ItemListAll(
@@ -100,13 +101,11 @@ private fun ItemListAllPreview() {
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ItemListAll(
     pokemon: Pokemon?,
     onclick: (Int) -> Unit
 ) {
-
     val textColor = Color.Black
     var showDialog by remember {
         mutableStateOf(false)

@@ -28,8 +28,6 @@ data class Pokemon(
     val name: String,
     @SerializedName("order")
     val order: Int,
-    @SerializedName("past_abilities")
-    val pastAbilities: List<String?>,
     @SerializedName("species")
     val species: Species,
     @SerializedName("sprites")

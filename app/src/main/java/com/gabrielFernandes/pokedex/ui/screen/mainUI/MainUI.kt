@@ -31,8 +31,9 @@ fun MainUI(navController: NavController) {
                 Modifier.padding(vertical = 20.dp, horizontal = 10.dp)
             )
             ListAll(
-                pkList
-            ) { id -> navController.navigate("pokemon/$id") }
+                pkList = pkList,
+                onclick = { id -> navController.navigate("pokemon/$id") }
+            )
         }
     }
 }

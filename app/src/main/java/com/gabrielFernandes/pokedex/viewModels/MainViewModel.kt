@@ -15,13 +15,16 @@ class MainViewModel(
     private val _pokemonsList = MutableStateFlow<List<Pokemon?>>(emptyList())
     val pokemonsList = _pokemonsList.asStateFlow()
 
+    private var limit = 50
+    private var offset = 0
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            loadPokemonsWithImages(20, 0)
+            loadPokemonsWithImages()
         }
     }
 
-    private suspend fun loadPokemonsWithImages(limit: Int, offset: Int) {
+    suspend fun loadPokemonsWithImages() {
         val pkResponse = pokemonRepository.getPokemons(limit, offset).body()
         val pokemons = pkResponse?.results ?: emptyList()
 
@@ -30,7 +33,7 @@ class MainViewModel(
         }
 
         _pokemonsList.value = pokemonsList
+
+        offset += limit
     }
-
-
 }
