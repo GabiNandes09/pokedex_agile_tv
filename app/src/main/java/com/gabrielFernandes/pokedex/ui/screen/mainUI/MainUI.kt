@@ -37,7 +37,8 @@ fun MainUI(navController: NavController) {
                 isLoading = isLoading,
                 isLoadingMore = isLoadingMore,
                 pkList = pkList,
-                onclick = { id -> navController.navigate("pokemon/$id") }
+                onclick = { id -> navController.navigate("pokemon/$id") },
+                loadMore = {viewModel.loadMorePokemons()}
             )
         }
     }

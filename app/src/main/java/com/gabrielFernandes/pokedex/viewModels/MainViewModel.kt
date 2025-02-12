@@ -22,16 +22,22 @@ class MainViewModel(
     private val _loadingMore = MutableStateFlow(false)
     val loadingMore = _loadingMore.asStateFlow()
 
-    private var limit = 50
+    private var limit = 20
     private var offset = 0
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            loadPokemonsWithImages()
+            loadPokemonsWithImages(
+                limit = limit,
+                offset = offset
+            )
         }
     }
 
-    private suspend fun loadPokemonsWithImages() {
+    /**
+     * Usado apenas no Init ou quando a lista fica vazia para carregar os primeiros
+     */
+    private suspend fun loadPokemonsWithImages(limit: Int, offset: Int) {
         _loading.value = true
 
         val pkResponse = pokemonRepository.getPokemons(limit, offset).body()
@@ -45,17 +51,37 @@ class MainViewModel(
 
         _loading.value = false
 
-        offset += limit
+        this.offset += limit
     }
 
     fun filterPokemons(filter: String){
         if (filter.isEmpty()){
             viewModelScope.launch(Dispatchers.IO) {
-                loadPokemonsWithImages()
+                offset = 0
+                loadPokemonsWithImages(limit, offset)
             }
         } else {
             _pokemonsList.value = _pokemonsList.value.filter { it?.name?.contains(filter, ignoreCase = true) == true }
         }
+    }
 
+    fun loadMorePokemons(){
+        if (!_loadingMore.value && !_loading.value){
+            _loadingMore.value = true
+
+            viewModelScope.launch(Dispatchers.IO) {
+                val newPk = pokemonRepository.getPokemons(limit, offset).body()?.results ?: emptyList()
+
+                val newList = newPk.mapIndexed { index, _ ->
+                    pokemonRepository.getOnePokemon(offset + index + 1).body()
+                }
+
+                _pokemonsList.value = _pokemonsList.value + newList
+
+                _loadingMore.value = false
+
+                offset += limit
+            }
+        }
     }
 }

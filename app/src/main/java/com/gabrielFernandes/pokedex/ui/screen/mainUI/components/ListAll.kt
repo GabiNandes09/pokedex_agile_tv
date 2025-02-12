@@ -15,14 +15,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -38,14 +41,30 @@ import androidx.compose.ui.window.Popup
 import coil3.compose.AsyncImage
 import com.gabrielFernandes.pokedex.R
 import com.gabrielFernandes.pokedex.models.Pokemon
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
 fun ListAll(
     isLoading: Boolean,
     isLoadingMore: Boolean,
     pkList: List<Pokemon?>,
-    onclick: (Int) -> Unit
+    onclick: (Int) -> Unit,
+    loadMore: () -> Unit
 ) {
+
+    val gridState = rememberLazyGridState()
+
+    LaunchedEffect(gridState) {
+        snapshotFlow{ gridState.layoutInfo.visibleItemsInfo.lastIndex}
+            .distinctUntilChanged()
+            .collect{lastVisible ->
+                if (lastVisible >= pkList.size - 3 && !isLoading) {
+                    loadMore()
+                }
+            }
+    }
+
+
     if (isLoading) {
         LazyVerticalGrid(columns = GridCells.Fixed(3)) {
             for (i in 1..50) {
@@ -56,7 +75,8 @@ fun ListAll(
         }
     } else {
         LazyVerticalGrid(
-            columns = GridCells.Fixed(3)
+            columns = GridCells.Fixed(3),
+            state = gridState
         ) {
             pkList.forEach { pokemon ->
                 item {
@@ -184,6 +204,7 @@ private fun Preview() {
         isLoading = true,
         isLoadingMore = true,
         pkList = emptyList(),
-        onclick = {}
+        onclick = {},
+        loadMore = {}
     )
 }
