@@ -9,7 +9,8 @@ import org.koin.dsl.module
 val appModule = module {
     viewModel {
         MainViewModel(
-            pokemonRepository = get()
+            pokemonRepository = get(),
+            network = get()
         )
     }
     factory {

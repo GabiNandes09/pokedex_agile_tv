@@ -2,17 +2,20 @@ package com.gabrielFernandes.pokedex.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gabrielFernandes.pokedex.NetworkMonitor
 import com.gabrielFernandes.pokedex.models.Pokemon
 import com.gabrielFernandes.pokedex.networkRepositories.PokemonRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainViewModel(
-    private val pokemonRepository: PokemonRepository
+    private val pokemonRepository: PokemonRepository,
+    val network: NetworkMonitor
 ) : ViewModel() {
 
     private val _pokemonsList = MutableStateFlow<List<Pokemon?>>(emptyList())
@@ -35,12 +38,13 @@ class MainViewModel(
     private var searchJob: Job? = null
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            loadPokemonsWithImages(
-                limit = limit,
-                offset = offset
-            )
-            loadNames()
+        viewModelScope.launch {
+            network.isConnected.collectLatest { isConnected ->
+                if (isConnected) {
+                    loadPokemonsWithImages(limit, offset)
+                    loadNames()
+                }
+            }
         }
     }
 
