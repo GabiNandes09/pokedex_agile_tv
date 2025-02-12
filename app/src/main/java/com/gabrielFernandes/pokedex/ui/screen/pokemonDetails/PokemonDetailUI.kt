@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -38,82 +40,41 @@ fun PokemonDetailUI(
     val pokemon by viewModel.pokemon.collectAsState()
     val types by viewModel.types.collectAsState()
     val stats by viewModel.stats.collectAsState()
+    val isConnected by viewModel.networkMonitor.isConnected.collectAsState()
 
-    LaunchedEffect(id) {
-        viewModel.loadPokemon(id)
-    }
-    LaunchedEffect(pokemon) {
-        pokemon?.id?.let { viewModel.loadPokemon(it) }
-    }
-    if (isPortrait()) {
-        Scaffold(
-            floatingActionButton = { FloatButtonsUI(id = id) },
-            floatingActionButtonPosition = FabPosition.Center
-        ) { paddingValues ->
-            BackGroundMain()
-            LazyColumn(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-            ) {
-                item {
-                    NameAndNumber(
-                        name = pokemon?.name ?: "",
-                        number = pokemon?.id ?: 0
-                    )
-                }
-
-                item {
-                    PhotoPokemon(
-                        urlImage = pokemon?.sprites?.frontDefault
-                    )
-                }
-
-                item {
-                    BasicStats(
-                        types = types,
-                        stats = stats
-                    )
-                }
-                item {
-                    AbilitysUI(
-                        pokemon
-                    )
-                }
-                item {
-                    MovesUI(pokemon = pokemon)
-                }
-                item {
-                    Spacer(modifier = Modifier.height(100.dp))
-                }
-            }
+    if (isConnected){
+        LaunchedEffect(id) {
+            viewModel.loadPokemon(id)
         }
-    } else {
-        Scaffold(
-            floatingActionButton = { FloatButtonsUI(id = id) },
-            floatingActionButtonPosition = FabPosition.Center
-        ) { paddingValues ->
-            BackGroundMain()
-            Row {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    NameAndNumber(
-                        name = pokemon?.name ?: "",
-                        number = pokemon?.id ?: 0
-                    )
-                    PhotoPokemon(
-                        urlImage = pokemon?.sprites?.frontDefault
-                    )
-                }
+        LaunchedEffect(pokemon) {
+            pokemon?.id?.let { viewModel.loadPokemon(it) }
+        }
+
+        if (isPortrait()) {
+            Scaffold(
+                floatingActionButton = { FloatButtonsUI(id = id) },
+                floatingActionButtonPosition = FabPosition.Center
+            ) { paddingValues ->
+                BackGroundMain()
                 LazyColumn(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .padding(paddingValues)
                         .fillMaxSize()
                 ) {
+                    item {
+                        NameAndNumber(
+                            name = pokemon?.name ?: "",
+                            number = pokemon?.id ?: 0
+                        )
+                    }
+
+                    item {
+                        PhotoPokemon(
+                            urlImage = pokemon?.sprites?.frontDefault
+                        )
+                    }
+
                     item {
                         BasicStats(
                             types = types,
@@ -134,7 +95,72 @@ fun PokemonDetailUI(
                 }
             }
         }
+        else {
+            Scaffold(
+                floatingActionButton = { FloatButtonsUI(id = id) },
+                floatingActionButtonPosition = FabPosition.Center
+            ) { paddingValues ->
+                BackGroundMain()
+                Row {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        NameAndNumber(
+                            name = pokemon?.name ?: "",
+                            number = pokemon?.id ?: 0
+                        )
+                        PhotoPokemon(
+                            urlImage = pokemon?.sprites?.frontDefault
+                        )
+                    }
+                    LazyColumn(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .padding(paddingValues)
+                            .fillMaxSize()
+                    ) {
+                        item {
+                            BasicStats(
+                                types = types,
+                                stats = stats
+                            )
+                        }
+                        item {
+                            AbilitysUI(
+                                pokemon
+                            )
+                        }
+                        item {
+                            MovesUI(pokemon = pokemon)
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(100.dp))
+                        }
+                    }
+                }
+            }
+        }
     }
+    else {
+        Scaffold { paddingValues ->
+            BackGroundMain()
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
+            ) {
+                AlertDialog(
+                    onDismissRequest = { /*TODO*/ },
+                    confirmButton = { /*TODO*/ },
+                    title = { Text(text = "Sem conexão")},
+                    text = { Text(text = "Este aplicativo necessita de uma conexão com a internet")}
+                )
+            }
+        }
+    }
+    
 }
 
 @Composable

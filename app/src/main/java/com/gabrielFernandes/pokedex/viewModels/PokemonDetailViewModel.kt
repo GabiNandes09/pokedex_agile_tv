@@ -2,6 +2,7 @@ package com.gabrielFernandes.pokedex.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gabrielFernandes.pokedex.NetworkMonitor
 import com.gabrielFernandes.pokedex.models.Pokemon
 import com.gabrielFernandes.pokedex.networkRepositories.PokemonRepository
 import com.gabrielFernandes.pokedex.networkRepositories.TypeRepository
@@ -12,7 +13,8 @@ import kotlinx.coroutines.launch
 
 class PokemonDetailViewModel(
     private val pokemonRepository: PokemonRepository,
-    private val typeRepository: TypeRepository
+    private val typeRepository: TypeRepository,
+    val networkMonitor: NetworkMonitor
 ) : ViewModel() {
 
     private val _pokemon = MutableStateFlow<Pokemon?>(null)

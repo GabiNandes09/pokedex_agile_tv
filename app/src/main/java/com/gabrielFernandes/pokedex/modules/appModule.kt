@@ -21,7 +21,8 @@ val appModule = module {
     viewModel {
         PokemonDetailViewModel(
             pokemonRepository = get(),
-            typeRepository = get()
+            typeRepository = get(),
+            networkMonitor = get()
         )
     }
 }
