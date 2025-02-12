@@ -5,9 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.gabrielFernandes.pokedex.models.Pokemon
 import com.gabrielFernandes.pokedex.networkRepositories.PokemonRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainViewModel(
     private val pokemonRepository: PokemonRepository
@@ -17,7 +19,6 @@ class MainViewModel(
     val pokemonsList = _pokemonsList.asStateFlow()
 
     private val _names = MutableStateFlow<List<String>>(emptyList())
-    val names = _names.asStateFlow()
 
     private val _loading = MutableStateFlow(false)
     val loading = _loading.asStateFlow()
@@ -25,8 +26,13 @@ class MainViewModel(
     private val _loadingMore = MutableStateFlow(false)
     val loadingMore = _loadingMore.asStateFlow()
 
-    private var limit = 50
+    private val _filtering = MutableStateFlow(false)
+    val filtering = _filtering.asStateFlow()
+
+    private var limit = 20
     private var offset = 0
+
+    private var searchJob: Job? = null
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -51,7 +57,9 @@ class MainViewModel(
             pokemonRepository.getOnePokemon(pokemons.indexOf(pk) + 1).body()
         }
 
-        _pokemonsList.value = pokemonsList
+        withContext(Dispatchers.Main){
+            _pokemonsList.value = pokemonsList
+        }
 
         _loading.value = false
 
@@ -59,26 +67,44 @@ class MainViewModel(
     }
 
     fun filterPokemons(filter: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        searchJob?.cancel()
+
+        _filtering.value = true
+
+        searchJob = viewModelScope.launch(Dispatchers.IO) {
             if (filter.isEmpty()) {
                 offset = 0
+                _filtering.value = false
+                _loadingMore.value = false
                 loadPokemonsWithImages(limit, offset)
             } else {
-                _pokemonsList.value =
+                val filteredList =
                     _pokemonsList.value.filter {
                         it?.name?.contains(
                             filter,
                             ignoreCase = true
-                        ) == true
+                        ) == true || it?.id.toString().contains(filter)
                     }
+
+                withContext(Dispatchers.Main){
+                    _pokemonsList.value = filteredList
+                }
 
                 _loadingMore.value = true
 
-                val list = _names.value.filter { it.contains(filter, ignoreCase = true) }
+                val list = _names.value.filter {
+                    it.contains(
+                        filter,
+                        ignoreCase = true
+                    ) || _names.value.indexOf(it).plus(1).toString().contains(filter)
+                }
 
                 if (list.isNotEmpty()) {
-                    _pokemonsList.value = list.map {
+                    val new = list.map {
                         pokemonRepository.getOnePokemon(it).body()
+                    }
+                    withContext(Dispatchers.Main){
+                        _pokemonsList.value = new
                     }
                 }
 
@@ -100,7 +126,9 @@ class MainViewModel(
                     pokemonRepository.getOnePokemon(offset + index + 1).body()
                 }
 
-                _pokemonsList.value += newList
+                withContext(Dispatchers.Main){
+                    _pokemonsList.value += newList
+                }
 
                 _loadingMore.value = false
 

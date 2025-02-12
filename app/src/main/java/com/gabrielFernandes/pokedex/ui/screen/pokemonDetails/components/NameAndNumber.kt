@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -26,10 +27,11 @@ fun NameAndNumber(
             .clip(RoundedCornerShape(20.dp))
             .background(Color.White)
             .border(2.dp, Color.Black, RoundedCornerShape(20.dp))
-            .padding(20.dp)
+            .padding(20.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = name.replaceFirstChar { it.uppercaseChar() },
+            text = name.replaceFirstChar { it.uppercaseChar() }.replace("-", "\n"),
             fontSize = 30.sp,
             modifier = Modifier.weight(1f),
             color = Color.Black

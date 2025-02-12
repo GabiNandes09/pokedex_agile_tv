@@ -21,6 +21,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,24 +42,30 @@ import androidx.compose.ui.window.Popup
 import coil3.compose.AsyncImage
 import com.gabrielFernandes.pokedex.R
 import com.gabrielFernandes.pokedex.models.Pokemon
+import com.gabrielFernandes.pokedex.viewModels.MainViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ListAll(
-    isLoading: Boolean,
-    isLoadingMore: Boolean,
-    pkList: List<Pokemon?>,
     onclick: (Int) -> Unit,
     loadMore: () -> Unit
 ) {
+    val viewModel: MainViewModel = koinViewModel()
+
+    val pkList by viewModel.pokemonsList.collectAsState()
+    val isLoading by viewModel.loading.collectAsState()
+    val isLoadingMore by viewModel.loadingMore.collectAsState()
+    val filteing by viewModel.filtering.collectAsState()
 
     val gridState = rememberLazyGridState()
 
     LaunchedEffect(gridState) {
-        snapshotFlow{ gridState.layoutInfo.visibleItemsInfo.lastIndex}
+        snapshotFlow{ gridState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0}
             .distinctUntilChanged()
-            .collect{lastVisible ->
-                if (pkList.isNotEmpty() && lastVisible >= pkList.size - 3 && !isLoading) {
+            .collectLatest{lastVisible ->
+                if (pkList.isNotEmpty() && lastVisible >= pkList.size - 3 && !isLoading && !filteing) {
                     loadMore()
                 }
             }
@@ -188,7 +195,7 @@ private fun ItemListAll(
                 placeholder = painterResource(id = R.drawable.no_image_foreground)
             )
             Text(
-                text = pokemon?.name?.replaceFirstChar { it.uppercaseChar() } ?: "",
+                text = pokemon?.name?.replaceFirstChar { it.uppercaseChar() }?.replace("-", "\n") ?: "",
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(10.dp),
                 color = textColor
@@ -201,9 +208,6 @@ private fun ItemListAll(
 @Composable
 private fun Preview() {
     ListAll(
-        isLoading = true,
-        isLoadingMore = true,
-        pkList = emptyList(),
         onclick = {},
         loadMore = {}
     )
