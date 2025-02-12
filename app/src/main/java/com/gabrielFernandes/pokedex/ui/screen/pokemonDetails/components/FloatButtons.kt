@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -38,7 +39,7 @@ import org.koin.androidx.compose.koinViewModel
 fun FloatButtonsUI(id: Int) {
 
     val viewModel: PokemonDetailViewModel = koinViewModel()
-    
+
     val pokemonAtual by viewModel.pokemon.collectAsState()
     val nextPk by viewModel.next.collectAsState()
     val beforePk by viewModel.before.collectAsState()
@@ -51,41 +52,44 @@ fun FloatButtonsUI(id: Int) {
         viewModel.nextOrBeforePokemon(atual)
     }
 
-    if (isPortrait()){
+    if (isPortrait()) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(
-                onClick = { atual-- },
-                colors = IconButtonDefaults.iconButtonColors(
-                    containerColor = Color.White
-                ),
-                modifier = Modifier
-                    .border(2.dp, Color.Black, CircleShape)
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                    contentDescription = null,
-                    Modifier.size(40.dp),
-                    tint = Color.Black
-                )
+            if (atual > 1) {
+                IconButton(
+                    onClick = { atual-- },
+                    colors = IconButtonDefaults.iconButtonColors(
+                        containerColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .border(2.dp, Color.Black, CircleShape)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                        contentDescription = null,
+                        Modifier.size(40.dp),
+                        tint = Color.Black
+                    )
+                }
+                Box( // Anterior
+                    modifier = Modifier
+                        .padding(start = 15.dp)
+                        .clip(CircleShape)
+                        .background(Color.White)
+                        .border(2.dp, Color.Black, CircleShape)
+                        .size(50.dp)
+                ) {
+                    AsyncImage(
+                        model = beforePk?.sprites?.frontDefault,
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
             }
-            Box( // Anterior
-                modifier = Modifier
-                    .padding(start = 15.dp)
-                    .clip(CircleShape)
-                    .background(Color.White)
-                    .border(2.dp, Color.Black, CircleShape)
-                    .size(50.dp)
-            ){
-                AsyncImage(
-                    model = beforePk?.sprites?.frontDefault,
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
+
             Box(
                 modifier = Modifier
                     .padding(horizontal = 5.dp)
@@ -93,7 +97,7 @@ fun FloatButtonsUI(id: Int) {
                     .background(Color.White)
                     .border(2.dp, Color.Black, CircleShape)
                     .size(70.dp)
-            ){
+            ) {
                 AsyncImage(
                     model = pokemonAtual?.sprites?.frontDefault,
                     contentDescription = null,
@@ -107,7 +111,7 @@ fun FloatButtonsUI(id: Int) {
                     .background(Color.White)
                     .border(2.dp, Color.Black, CircleShape)
                     .size(50.dp)
-            ){
+            ) {
                 AsyncImage(
                     model = nextPk?.sprites?.frontDefault,
                     contentDescription = null,
@@ -131,41 +135,47 @@ fun FloatButtonsUI(id: Int) {
             }
         }
     } else {
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(
-                onClick = { atual-- },
-                colors = IconButtonDefaults.iconButtonColors(
-                    containerColor = Color.White
-                ),
-                modifier = Modifier
-                    .border(2.dp, Color.Black, CircleShape)
-                    .weight(1f)
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                    contentDescription = null,
-                    Modifier.size(40.dp),
-                    tint = Color.Black
-                )
+            if (atual > 1) {
+                IconButton(
+                    onClick = { atual-- },
+                    colors = IconButtonDefaults.iconButtonColors(
+                        containerColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .border(2.dp, Color.Black, CircleShape)
+                        .weight(1f)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                        contentDescription = null,
+                        Modifier.size(40.dp),
+                        tint = Color.Black
+                    )
+                }
+                Box( // Anterior
+                    modifier = Modifier
+                        .padding(start = 15.dp)
+                        .clip(CircleShape)
+                        .background(Color.White)
+                        .border(2.dp, Color.Black, CircleShape)
+                        .size(50.dp)
+                ) {
+                    AsyncImage(
+                        model = beforePk?.sprites?.frontDefault,
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+            } else {
+                Spacer(modifier = Modifier.weight(1f))
             }
-            Box( // Anterior
-                modifier = Modifier
-                    .padding(start = 15.dp)
-                    .clip(CircleShape)
-                    .background(Color.White)
-                    .border(2.dp, Color.Black, CircleShape)
-                    .size(50.dp)
-            ){
-                AsyncImage(
-                    model = beforePk?.sprites?.frontDefault,
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
+
             Box(
                 modifier = Modifier
                     .padding(horizontal = 5.dp)
@@ -173,7 +183,7 @@ fun FloatButtonsUI(id: Int) {
                     .background(Color.White)
                     .border(2.dp, Color.Black, CircleShape)
                     .size(70.dp)
-            ){
+            ) {
                 AsyncImage(
                     model = pokemonAtual?.sprites?.frontDefault,
                     contentDescription = null,
@@ -187,7 +197,7 @@ fun FloatButtonsUI(id: Int) {
                     .background(Color.White)
                     .border(2.dp, Color.Black, CircleShape)
                     .size(50.dp)
-            ){
+            ) {
                 AsyncImage(
                     model = nextPk?.sprites?.frontDefault,
                     contentDescription = null,
