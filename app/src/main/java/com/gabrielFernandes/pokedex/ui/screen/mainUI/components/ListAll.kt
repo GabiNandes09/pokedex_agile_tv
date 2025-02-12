@@ -58,7 +58,7 @@ fun ListAll(
         snapshotFlow{ gridState.layoutInfo.visibleItemsInfo.lastIndex}
             .distinctUntilChanged()
             .collect{lastVisible ->
-                if (lastVisible >= pkList.size - 3 && !isLoading) {
+                if (pkList.isNotEmpty() && lastVisible >= pkList.size - 3 && !isLoading) {
                     loadMore()
                 }
             }

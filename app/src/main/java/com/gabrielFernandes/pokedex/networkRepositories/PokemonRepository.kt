@@ -14,6 +14,10 @@ interface PokemonRepository {
         @Path("id") id: Int
     ) : Response<Pokemon>
 
+    @GET("pokemon/{name}/")
+    suspend fun getOnePokemon(
+        @Path("name") name: String
+    ) : Response<Pokemon>
 
     @GET("pokemon")
     suspend fun getPokemons(
