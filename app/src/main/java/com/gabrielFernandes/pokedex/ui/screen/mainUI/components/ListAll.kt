@@ -41,10 +41,12 @@ import com.gabrielFernandes.pokedex.models.Pokemon
 
 @Composable
 fun ListAll(
+    isLoading: Boolean,
+    isLoadingMore: Boolean,
     pkList: List<Pokemon?>,
     onclick: (Int) -> Unit
 ) {
-    if (pkList.isEmpty()) {
+    if (isLoading) {
         LazyVerticalGrid(columns = GridCells.Fixed(3)) {
             for (i in 1..50) {
                 item {
@@ -62,6 +64,11 @@ fun ListAll(
                         pokemon,
                         onclick
                     )
+                }
+            }
+            if (isLoadingMore){
+                item {
+                    ItemListAllPreview()
                 }
             }
         }
@@ -106,6 +113,7 @@ private fun ItemListAll(
     pokemon: Pokemon?,
     onclick: (Int) -> Unit
 ) {
+
     val textColor = Color.Black
     var showDialog by remember {
         mutableStateOf(false)
@@ -119,6 +127,7 @@ private fun ItemListAll(
             )
         }
     }
+
     Card(
         modifier = Modifier
             .padding(5.dp)
@@ -172,7 +181,9 @@ private fun ItemListAll(
 @Composable
 private fun Preview() {
     ListAll(
-        emptyList(),
-        {}
+        isLoading = true,
+        isLoadingMore = true,
+        pkList = emptyList(),
+        onclick = {}
     )
 }

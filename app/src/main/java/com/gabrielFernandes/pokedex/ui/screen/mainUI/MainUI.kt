@@ -21,6 +21,8 @@ import org.koin.androidx.compose.koinViewModel
 fun MainUI(navController: NavController) {
     val viewModel: MainViewModel = koinViewModel()
     val pkList by viewModel.pokemonsList.collectAsState()
+    val isLoading by viewModel.loading.collectAsState()
+    val isLoadingMore by viewModel.loadingMore.collectAsState()
 
     Scaffold { paddingValues ->
         BackGroundMain()
@@ -28,9 +30,12 @@ fun MainUI(navController: NavController) {
             modifier = Modifier.padding(paddingValues)
         ) {
             SearchAndFilterBar(
-                Modifier.padding(vertical = 20.dp, horizontal = 10.dp)
+                modifier = Modifier.padding(vertical = 20.dp, horizontal = 10.dp),
+                onValueChange = {filter -> viewModel.filterPokemons(filter)}
             )
             ListAll(
+                isLoading = isLoading,
+                isLoadingMore = isLoadingMore,
                 pkList = pkList,
                 onclick = { id -> navController.navigate("pokemon/$id") }
             )
